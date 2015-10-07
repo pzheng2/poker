@@ -16,11 +16,7 @@ describe Player do
       expect(player.get_discard_choice.uniq == player.get_discard_choice).to eq(true)
     end
 
-
   end
-  
-
-
 
 
 

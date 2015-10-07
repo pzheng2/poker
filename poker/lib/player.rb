@@ -1,12 +1,13 @@
 require_relative 'deck'
 
 class Player
+attr_accessor :hand, :current_bet, :stake
 
-
-  def initialize(name, pot)
+  def initialize(name, stake)
     @name = name
     @hand = []
-    @pot = pot
+    @stake = stake
+    @current_bet = 0
   end
 
   def get_discard_choice
@@ -22,18 +23,43 @@ class Player
           raise PokerError unless card_choice.between?(0,4) && !to_discard.include?(card_choice)
           to_discard << card_choice
         rescue PokerError, ArgumentError => e
-          retry
           p e.message
+          retry
         end
       end
     rescue PokerError, ArgumentError => e
-      retry
       p e.message
+      retry
     end
-
 
     to_discard
   end
+
+  def get_bet_choice
+    options = ["f", "s", "r"]
+    begin
+      puts "Enter bet choice (F-fold, S-see or R-raise): "
+      choice = STDIN.gets.chomp.downcase
+      raise PokerError unless options.include?(choice)
+    rescue PokerError => e
+      retry
+    end
+
+    choice
+  end
+
+  def make_bet
+    puts "Enter bet amount: "
+    bet_amount = Integer(STDIN.gets.chomp)
+    rescue ArgumentError => e
+      p e.message
+      retry
+
+
+    bet_amount
+  end
+
+
 
 end
 
