@@ -1,7 +1,7 @@
 class Hand
   attr_accessor :cards
-  def initialize
-
+  def initialize(cards = [])
+    @cards = cards
   end
 
   def flush
@@ -10,7 +10,7 @@ class Hand
 
   def straight
     sorted_values = values.sort
-    (sorted_values.last - sorted_values.first) == 4
+    (sorted_values.last - sorted_values.first) == 4 && (sorted_values == sorted_values.uniq)
   end
 
   def full_house
@@ -41,6 +41,22 @@ class Hand
     value_counts = unique_value_count
     value_counts.values.sort == [1, 1, 1, 2]
   end
+  def is_higher?(other_hand)
+    hand_rank < other_hand.hand_rank
+  end
+
+  def hand_rank
+    return 1 if straight_flush
+    return 2 if four_of_a_kind
+    return 3 if full_house
+    return 4 if flush
+    return 5 if straight
+    return 6 if three_of_a_kind
+    return 7 if two_pair
+    return 8 if pair
+    return 9
+  end
+
 
   private
   def values
