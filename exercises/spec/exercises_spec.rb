@@ -85,3 +85,22 @@ describe Array do
 
   end
 end
+
+describe "#stock_picker" do
+
+  it "returns an empty array if passed an empty array" do
+    empty_array = []
+    expect(stock_picker(empty_array)).to eq([])
+  end
+
+  it "returns an empty array if no trades are profitable" do
+    no_trades = [2, 1]
+    expect(stock_picker(no_trades)).to eq([])
+  end
+
+  it "returns the correct trade in a simple case" do
+    simple_trade = [1, 2, 3]
+    expect(stock_picker(simple_trade)).to eq([0, 2])
+  end
+
+end
