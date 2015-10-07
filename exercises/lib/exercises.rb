@@ -44,7 +44,7 @@ def stock_picker(prices)
   profitable_trade = []
   profit = 0
   prices.each_with_index do |price, index|
-    (index + 1...prices.length).each do |other_index|
+      (index + 1...prices.length).each do |other_index|
       difference = prices[other_index] - price
       if difference > profit
         profit = difference
@@ -52,6 +52,6 @@ def stock_picker(prices)
       end
     end
   end
-  
+
   profitable_trade
 end

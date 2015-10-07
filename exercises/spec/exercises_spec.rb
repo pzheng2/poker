@@ -1,4 +1,5 @@
 require 'exercises'
+require 'hanoi'
 
 
 describe Array do
@@ -99,8 +100,65 @@ describe "#stock_picker" do
   end
 
   it "returns the correct trade in a simple case" do
-    simple_trade = [1, 2, 3]
-    expect(stock_picker(simple_trade)).to eq([0, 2])
+    simple_trade = [1, 2]
+    expect(stock_picker(simple_trade)).to eq([0, 1])
   end
+
+  it "returns the correct trade in a more complex case" do
+    complex_trade = [4, 1, 2, 9, 6]
+    expect(stock_picker(complex_trade)).to eq([1, 3])
+  end
+
+end
+
+describe HanoiGame do
+
+  let(:default_hanoi) { HanoiGame.new }
+
+  describe "#board" do
+    it "returns the current state of the board" do
+      expect(default_hanoi.board).to eq([[1, 2, 3],[],[]])
+    end
+  end
+
+  describe "#render" do
+    it "calls the board method" do
+      expect(default_hanoi).to receive(:board)
+      default_hanoi.render
+    end
+  end
+
+  describe "#move" do
+    it "moves top disk from the start tower to end tower" do
+      default_hanoi.move(0, 1)
+      expect(default_hanoi.board).to eq([[2, 3],[1],[]])
+    end
+
+    it "raises an error if given an empty tower as start tower" do
+      expect do
+        default_hanoi.move(1, 2)
+      end.to raise_error(ArgumentError)
+    end
+
+    it "raises an error when trying to move a larger disk onto a smaller disk" do
+      hanoi = HanoiGame.new
+      hanoi.board = [[1],[2,3],[]]
+      expect do
+        hanoi.move(1, 0)
+      end.to raise_error(ArgumentError)
+    end
+    describe "#won?" do
+      it "returns true when all disks are in the rightmost tower" do
+        won_hanoi = HanoiGame.new
+        won_hanoi.board = [[],[],[1,2,3]]
+        expect(won_hanoi.won?).to be(true)
+      end
+      it "returns false when the game is not over" do
+        expect(default_hanoi.won?).to eq(false)
+
+      end
+    end
+  end
+
 
 end
